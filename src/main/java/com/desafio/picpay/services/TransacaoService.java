@@ -12,6 +12,7 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @ApplicationScoped
 public class TransacaoService {
@@ -30,6 +31,10 @@ public class TransacaoService {
         this.usuarioService = usuarioService;
         this.notificacaoService = notificacaoService;
         this.autorizacaoClient = autorizacaoClient;
+    }
+
+    public List<Transacao> listarTransacoes() {
+        return this.transacaoRepository.findAll();
     }
 
     public Transacao criandoTransacao(TransacaoDTO transacaoDTO) {

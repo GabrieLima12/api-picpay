@@ -3,6 +3,7 @@ package com.desafio.picpay.controllers;
 import com.desafio.picpay.domain.usuario.Usuario;
 import com.desafio.picpay.domain.usuario.UsuarioDTO;
 import com.desafio.picpay.services.UsuarioService;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -21,7 +22,7 @@ public class UsuarioController {
     }
 
     @POST
-    public Response criandoUsuario(UsuarioDTO usuarioDTO) {
+    public Response criandoUsuario(@Valid UsuarioDTO usuarioDTO) {
         Usuario novoUsuario = this.usuarioService.criarUsuario(usuarioDTO);
         return Response.status(Response.Status.CREATED).entity(novoUsuario).build();
     }

@@ -1,5 +1,15 @@
 package com.desafio.picpay.domain.usuario;
 
+import jakarta.validation.constraints.NotNull;
+
 import java.math.BigDecimal;
 
-public record UsuarioDTO(String primeiroNome, String sobrenome, String documento, BigDecimal saldo, String email, String senha, TipoUsuario tipoUsuario) {}
+public record UsuarioDTO(
+        @NotNull String primeiroNome,
+        @NotNull String sobrenome,
+        @NotNull String documento,
+        @NotNull BigDecimal saldo,
+        @NotNull String email,
+        @NotNull String senha,
+        @NotNull TipoUsuario tipoUsuario) {
+}
