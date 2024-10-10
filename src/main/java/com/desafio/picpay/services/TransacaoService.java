@@ -5,6 +5,7 @@ import com.desafio.picpay.domain.transacao.Transacao;
 import com.desafio.picpay.domain.usuario.Usuario;
 import com.desafio.picpay.dtos.AutorizacaoResponse;
 import com.desafio.picpay.dtos.TransacaoDTO;
+import com.desafio.picpay.exception.TransacaoException;
 import com.desafio.picpay.repositories.TransacaoRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
@@ -31,7 +32,11 @@ public class TransacaoService {
         this.autorizacaoClient = autorizacaoClient;
     }
 
-    public Transacao criandoTransacao(TransacaoDTO transacaoDTO) throws Exception {
+    public Transacao criandoTransacao(TransacaoDTO transacaoDTO) {
+        if (transacaoDTO.recebedorId().equals(transacaoDTO.remetenteId())) {
+            throw new TransacaoException("Transação não pode ser realizada para o usuário remetente");
+        }
+
         Usuario remetente = this.usuarioService.encontrarUsuarioPorId(transacaoDTO.remetenteId());
         Usuario recebedor = this.usuarioService.encontrarUsuarioPorId(transacaoDTO.recebedorId());
 
@@ -40,7 +45,7 @@ public class TransacaoService {
         boolean estaAutorizado = this.autorizacaoTransacao(remetente, transacaoDTO.valor());
 
         if (!estaAutorizado) {
-            throw new Exception("Transação não autorizada");
+            throw new TransacaoException("Transação não autorizada");
         }
 
         Transacao transacao = new Transacao();
@@ -63,12 +68,12 @@ public class TransacaoService {
         return transacao;
     }
 
-    public boolean autorizacaoTransacao(Usuario remetente, BigDecimal valor) throws Exception {
+    public boolean autorizacaoTransacao(Usuario remetente, BigDecimal valor) {
         try {
             AutorizacaoResponse autorizacaoResponse = autorizacaoClient.autorizar();
             return "success".equalsIgnoreCase(autorizacaoResponse.getStatus());
         } catch (Exception exception) {
-            throw new Exception("Serviço de autorização está indisponível", exception);
+            return false;
         }
     }
 }
