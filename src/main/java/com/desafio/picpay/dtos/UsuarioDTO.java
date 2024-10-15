@@ -1,4 +1,4 @@
-package com.desafio.picpay.domain.usuario;
+package com.desafio.picpay.dtos;
 
 import jakarta.validation.constraints.NotNull;
 

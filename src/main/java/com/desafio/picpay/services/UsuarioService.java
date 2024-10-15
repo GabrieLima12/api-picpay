@@ -1,8 +1,8 @@
 package com.desafio.picpay.services;
 
-import com.desafio.picpay.domain.usuario.TipoUsuario;
+import com.desafio.picpay.dtos.TipoUsuario;
 import com.desafio.picpay.domain.usuario.Usuario;
-import com.desafio.picpay.domain.usuario.UsuarioDTO;
+import com.desafio.picpay.dtos.UsuarioDTO;
 import com.desafio.picpay.exception.UsuarioExeption;
 import com.desafio.picpay.repositories.UsuarioRepository;
 import jakarta.enterprise.context.ApplicationScoped;
